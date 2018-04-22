@@ -11,10 +11,21 @@ import android.graphics.Paint;
 
 public class Cannon extends Sprite {
 
+    float x_screensize = 1000.0f;
+    float speed = 10.0f;
+
     public Cannon(float x, float y) {
         pos = new Position(x, y);
     }
 
+
+    public void step() {
+        if (pos.x >= x_screensize || pos.x < 0){
+            speed = -1 * speed;
+        }
+        pos.x += speed;
+
+    }
 
     public void draw(Canvas c, Paint p, Bitmap bm) {
         c.drawBitmap(bm,pos.x,pos.y,p);

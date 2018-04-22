@@ -28,7 +28,7 @@ public class Game {
     public Game() {
 
         bars = new Bars();
-        ball = new Ball();
+        ball = new Ball(200, 50); // x1pos + 200, y1pos - 50 from bar 1
         fires = new Fires();
         cannon= new Cannon(500, 1000);
 
@@ -44,14 +44,17 @@ public class Game {
     public void draw(Canvas canvas, Paint paint, Bitmap bm) {
         bars.draw(canvas, paint, bm);
         cannon.draw(canvas,paint,bm);
+        ball.draw(canvas, paint, bm);
 
 
     }
 
     // move the game forward one step
-    public void step() {
+    public void step(Position pos) {
 
         bars.step();
+        cannon.step();
+        ball.step(bars, pos);
 
     }
 

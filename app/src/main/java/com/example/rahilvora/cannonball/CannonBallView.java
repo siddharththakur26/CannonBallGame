@@ -34,7 +34,6 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
         paint.setStrokeWidth(DEFAULTPENWIDTH);
         this.setOnTouchListener(this);
         game = new Game();
-        Ball b=new Ball();
         bm= BitmapFactory.decodeResource(getResources(),R.drawable.funnel);
         repaintHandler = new Handler();
         repaintHandler.postDelayed(this, STEPDELAY);
@@ -53,7 +52,8 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
 
     // step the view forward by one step - true is returned if more steps to go
     public boolean step() {
-        game.step();
+        Position pos = new Position(xposc_touch, yposc_touch);
+        game.step(pos);
         if (game.hasWon() || game.ballHit()) {
            /* Context context = this.getContext();
             while (!(context instanceof GameActivity))

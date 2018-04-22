@@ -21,5 +21,11 @@ public class Position {
         float dy = y - p.y;
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
+
+    @Override
+    public String toString() {
+        return "x: " + x + ", y: " + y;
+    }
 }
+
 
