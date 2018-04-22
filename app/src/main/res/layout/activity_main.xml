@@ -27,6 +27,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="85dp"
         android:text="Play"
+        android:onClick="StartGame"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="385dp" />
 
