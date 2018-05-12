@@ -13,13 +13,17 @@ import java.util.Iterator;
 
 public class Fires extends ArrayList<Fire>{
     public static final float FIRESTEP = 0.03f;
+    public static float SCREENMAX=1000.0f;
+    public static float SCREENMIN=0.0f;
 
     public void step() {
-        for (Fire f : this) f.pos.y += FIRESTEP;
-        Iterator<Fire> fi = this.iterator();
-        while (fi.hasNext()) {
-            Fire f = fi.next();
-            if (f.pos.y > Game.MAXXY) fi.remove();
+        if (this.get(2).x2posf > SCREENMAX || this.get(0).x1posf < SCREENMIN) {
+            Fire.speed = -1 * Fire.speed;
+        }
+        for (Fire f : this) {
+            f.x1posf += f.speed;
+            f.x2posf += f.speed;
+
         }
     }
 
