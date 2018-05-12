@@ -12,6 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import android.os.Handler;
+
+import java.util.ArrayList;
+
 /**
  * Created by siddharththakur on 22/04/18.
  */
@@ -22,10 +25,21 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
     public static final float DEFAULTPENWIDTH = 3.0f;
     private  float xposc_touch;
     private float yposc_touch;
+
+    public static int getTouchCount() {
+        return touchCount;
+    }
+
+    public static void setTouchCount(int touchCount) {
+        CannonBallView.touchCount = touchCount;
+    }
+
+    private static int touchCount;
     Paint paint;
     Handler repaintHandler;
     Game game;
     Bitmap bm;
+    ArrayList<GameOver> observers ;
 
     public CannonBallView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -34,10 +48,12 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
         paint.setStrokeWidth(DEFAULTPENWIDTH);
         this.setOnTouchListener(this);
         game = new Game();
+        setTouchCount(0);
         bm= BitmapFactory.decodeResource(getResources(),R.drawable.funnel);
+        game.setCannonDim(bm.getWidth(), bm.getHeight());
         repaintHandler = new Handler();
         repaintHandler.postDelayed(this, STEPDELAY);
-
+        observers=new ArrayList<GameOver>();
     }
 
     @Override
@@ -46,6 +62,7 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
             xposc_touch = motionEvent.getX();
             yposc_touch = motionEvent.getY();
             this.invalidate();
+            setTouchCount(getTouchCount() + 1);
         }
         return true;
     }
@@ -54,12 +71,8 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
     public boolean step() {
         Position pos = new Position(xposc_touch, yposc_touch);
         game.step(pos);
-        if (game.hasWon() || game.ballHit()) {
-           /* Context context = this.getContext();
-            while (!(context instanceof GameActivity))
-                context = ((GameActivity) context).getBaseContext();
-            ((GameActivity) context).endActivity(game.hasWon() ? "You Win !!" : "You Lost :(");*/
-//            notifyGameOver();
+        if (game.hasWon() || game.ballHit() || game.gameOver()) {
+            notifyGameOver();
             return false;
         }
         this.invalidate();
@@ -72,10 +85,6 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
     }
 
 
-//    private void notifyGameOver() {
-//        for (GameOver o : observers) o.gameOver();
-//    }
-
 
     @Override
     public void run() {
@@ -86,5 +95,13 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
 
 
     }
+    private void notifyGameOver() {
+        for (GameOver o : observers) o.gameOver();
+    }
 
+
+
+    public void registerGameOver(GameOver gameover) {
+        observers.add(gameover);
+    }
 }

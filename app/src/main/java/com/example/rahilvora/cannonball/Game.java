@@ -12,6 +12,7 @@ public class Game {
 
     public static final float MAXXY = 1.0f;
     public static final float MINXY = 0.0f;
+    public static final float SCREENSIZE = 1000.0f;
 
 
     public static final float MISSILESTEP = 0.06f;
@@ -24,6 +25,13 @@ public class Game {
 
     private boolean ballHit;
 
+    private float cannonWidth;
+    private float cannonHeight;
+
+    public void setCannonDim(float cannonWidth, float cannonHeight) {
+        this.cannonWidth = cannonWidth;
+        this.cannonHeight = cannonHeight;
+    }
 
     public Game() {
 
@@ -54,12 +62,25 @@ public class Game {
 
         bars.step();
         cannon.step();
-        ball.step(bars, pos);
+        ball.step(bars, pos, CannonBallView.getTouchCount());
 
     }
 
     public boolean hasWon() {
-        //return !ballHit && ball == 0;
+        if (ball.pos.x >= cannon.pos.x && ball.pos.x <= cannon.pos.x + cannonWidth && ball.pos.y + Ball.RADIUS == cannon.pos.y)
+            return true;
+        return false;
+    }
+
+    //return boolean if the ball crossess the screen and pass beyond the cannon
+
+    public boolean gameOver(){
+        if (ball.pos.y > cannon.pos.y) {
+                return true;
+        }
+        else if (ball.pos.x > SCREENSIZE || ball.pos.x-ball.RADIUS < 0)
+            return true;
+
         return false;
     }
 
@@ -67,9 +88,7 @@ public class Game {
         return ballHit;
     }
 
-//    public boolean hasWon() {
-//        return !shipHit && aliens.size() == 0;
-//    }
+
 //
 //    public boolean shipHit() {
 //        return shipHit;
