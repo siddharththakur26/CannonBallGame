@@ -23,37 +23,30 @@ public class Ball extends Sprite {
         pos = new Position(x, y);
     }
 
-    public void step(Bars bars, Position touch) {
+    public void step(Bars bars, Position touch, int touchCount) {
         boolean falling = true;
-        boolean moving = true;
+        boolean moving = true && touchCount > 0;
         for (Bar bar: bars) {
             if (falling && (pos.x > bar.x1pos && pos.x < bar.x2pos && (pos.y + RADIUS) == bar.y1pos)) {
                 falling = false;
 
             }
-
-            System.out.println(touch);
-
             if (moving && (pos.x > bar.x1pos && pos.x < bar.x2pos && pos.y + RADIUS <= bar.y1pos)) {
                 moving = false;
                 if (pos.x <= touch.x) {
-                    pos.x += 5.5;
+                    pos.x += 15.5;
                 } else if (pos.x >= touch.x) {
-                    pos.x -= 5.5;
+                    pos.x -= 15.5;
                 }
             }
+
         }
         if (falling) {
-            pos.y += 5.5;
-//            if (pos.x <= touch.x) {
-//                pos.x += 5.5;
-//            } else if (pos.x >= touch.x) {
-//                pos.x -= 5.5;
-//            }
-        } else {
+            pos.y += 13.75;
 
         }
     }
+
 
     public void draw(Canvas c , Paint p, Bitmap bm) {
         int h = c.getHeight();
