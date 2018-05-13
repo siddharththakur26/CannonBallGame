@@ -12,7 +12,7 @@ public class Game {
 
     public static final float MAXXY = 1.0f;
     public static final float MINXY = 0.0f;
-    public static final float SCREENSIZE = 1000.0f;
+    public static final float SCREENSIZE = 1200.0f;
 
 
     public static final float MISSILESTEP = 0.06f;
@@ -22,7 +22,7 @@ public class Game {
     private Cannon cannon;
     private Fires fires;
     private Ball ball;
-    private Fire fp;
+
 
 //    private boolean ballHit;
 
@@ -87,7 +87,7 @@ public class Game {
         if (ball.pos.y > cannon.pos.y) {
                 return true;
         }
-        else if (ball.pos.x > SCREENSIZE || ball.pos.x-ball.RADIUS < 0)
+        else if (ball.pos.x + ball.RADIUS > SCREENSIZE || ball.pos.x-ball.RADIUS < 0)
             return true;
 
         else if (ballHit())

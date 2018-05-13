@@ -9,18 +9,18 @@ import android.graphics.Paint;
  */
 
 public class Ball extends Sprite {
-    public static final float SHIPWIDTH = (1.0f / 20.0f);
-    public static final float STARTX = 0.5f;
-    public static final float STARTY = 0.9f;
     public static final float RADIUS = 50.0f;
+    public static int Score;
 
     public void setPos(float x, float y) {
         pos.x = x;
         pos.y = y;
+
     }
 
     public Ball(float x, float y) {
         pos = new Position(x, y);
+        Score=0;
     }
 
     public void step(Bars bars, Position touch, int touchCount) {
@@ -43,7 +43,10 @@ public class Ball extends Sprite {
         }
         if (falling) {
             pos.y += 13.75;
-
+        }
+        else
+        {
+            Score++;
         }
     }
 
@@ -57,10 +60,5 @@ public class Ball extends Sprite {
 
         c.drawCircle(xc,yc,RADIUS,p);
     }
-
-
-//    public boolean hitby(Bomb b) {
-//        return (b.pos.distance(pos) < SHIPWIDTH);
-//    }
 
 }
