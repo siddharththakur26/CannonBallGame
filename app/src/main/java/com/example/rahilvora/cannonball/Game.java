@@ -6,25 +6,41 @@ import android.graphics.Paint;
 
 /**
  * Created by siddharththakur on 21/04/18.
+ * Game Class where Bars, Fires, Ball and Cannon are drawn. Status of the game is checked and updated.
  */
 
 public class Game {
 
-    public static final float MAXXY = 1.0f;
-    public static final float MINXY = 0.0f;
-    public static final float SCREENSIZE = 1200.0f;
-
-
-    public static final float MISSILESTEP = 0.06f;
-
-
+    public static final float SCREENSIZE = 1000.0f;
     private Bars bars;
     private Cannon cannon;
     private Fires fires;
     private Ball ball;
 
+    public Bars getBars() {
+        return bars;
+    }
 
-//    private boolean ballHit;
+    public Cannon getCannon() {
+        return cannon;
+    }
+
+    public Ball getBall() {
+        return ball;
+    }
+
+
+    public Fires getFires() {
+        return fires;
+    }
+
+    public float getCannonWidth() {
+        return cannonWidth;
+    }
+
+    public void setCannonWidth(float cannonWidth) {
+        this.cannonWidth = cannonWidth;
+    }
 
     private float cannonWidth;
     private float cannonHeight;
@@ -42,19 +58,19 @@ public class Game {
         cannon= new Cannon(500, 1000);
 
 
-        // Adding new bar in bars
+        // Adding bars
         bars.add(new Bar(0.f, 300.f, 100.0f, 100.f, 5));
         bars.add(new Bar(0.f, 450.f, 375.0f, 375.f, 10));
         bars.add(new Bar(0.f, 550.f, 650.0f, 650.f, 15));
-      //  BallHit = false;
 
-        // Adding a fire
+
+        // Adding fires
         fires.add(new Fire(0.f, 50.f, 925.0f, 925.f, 15));
         fires.add(new Fire(60.f, 110.f, 925.0f, 925.f, 15));
         fires.add(new Fire(120.f, 170.f, 925.0f, 925.f, 15));
     }
 
-    // draw all the game
+    // draw all objects of the game in the CannonBallView
     public void draw(Canvas canvas, Paint paint, Bitmap bm) {
         bars.draw(canvas, paint, bm);
         cannon.draw(canvas,paint,bm);
@@ -73,20 +89,21 @@ public class Game {
         fires.step();
 
     }
-
+    //Return true if user won the game
     public boolean hasWon() {
-        if (ball.pos.x >= cannon.pos.x && ball.pos.x <= cannon.pos.x + cannonWidth && ball.pos.y + Ball.RADIUS == cannon.pos.y)
+        if (ball.pos.x >= cannon.pos.x - cannonWidth && ball.pos.x <= cannon.pos.x + cannonWidth &&
+                ball.pos.y + Ball.RADIUS >= cannon.pos.y)
             return true;
-
         return false;
     }
 
-    //return true if the ball crossess the screen and pass beyond the cannon
+    //return true if the User fails to win the game
 
     public boolean gameOver(){
         if (ball.pos.y > cannon.pos.y) {
-                return true;
+            return true;
         }
+
         else if (ball.pos.x + ball.RADIUS > SCREENSIZE || ball.pos.x-ball.RADIUS < 0)
             return true;
 
@@ -96,6 +113,8 @@ public class Game {
         return false;
     }
 
+
+    //return true when ball hits the fires
     public boolean ballHit() {
         if ((ball.pos.y + ball.RADIUS > this.fires.get(2).y1posf) && (ball.pos.y - ball.RADIUS < this.fires.get(2).y2posf) ) {
             if (this.fires.get(0).x1posf <= (ball.pos.x + ball.RADIUS) && this.fires.get(2).x2posf >= (ball.pos.x - ball.RADIUS))
@@ -105,16 +124,6 @@ public class Game {
 
     }
 
-
-//
-//    public boolean shipHit() {
-//        return shipHit;
-//    }
-//
-//    public void touch(float xpos) {
-//        spaceShip.pos.x = xpos;
-//        missiles.add(new Missile(spaceShip.pos));
-    // }
 
 }
 

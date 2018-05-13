@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 /**
  * Created by siddharththakur on 21/04/18.
+ * Base Class where every object inherits for their property
  */
 
 public abstract class Sprite {

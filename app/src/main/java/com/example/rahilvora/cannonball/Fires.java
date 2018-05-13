@@ -9,13 +9,14 @@ import java.util.Iterator;
 
 /**
  * Created by siddharththakur on 22/04/18.
+ * Fires object with number of Fire as its property
  */
 
-public class Fires extends ArrayList<Fire>{
+public class Fires extends ArrayList<Fire> {
     public static final float FIRESTEP = 0.03f;
-    public static float SCREENMAX=1000.0f;
-    public static float SCREENMIN=0.0f;
-
+    public static float SCREENMAX = 1000.0f;
+    public static float SCREENMIN = 0.0f;
+    //Movement of fire is updated at every step
     public void step() {
         if (this.get(2).x2posf > SCREENMAX || this.get(0).x1posf < SCREENMIN) {
             Fire.speed = -1 * Fire.speed;
@@ -26,7 +27,7 @@ public class Fires extends ArrayList<Fire>{
 
         }
     }
-
+    //Drawing a line of fire on the CannonBallView
     public void draw(Canvas canvas, Paint paint, Bitmap bm) {
         for (Fire f : this) f.draw(canvas, paint, bm);
     }
