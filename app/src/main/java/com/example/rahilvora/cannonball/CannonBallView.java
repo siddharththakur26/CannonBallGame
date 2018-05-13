@@ -41,6 +41,7 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
     Bitmap bm;
     ArrayList<GameOver> observers ;
 
+    //CannonBallView constructor is called and initialize bars,ball,fires and cannon in the view.
     public CannonBallView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
@@ -56,6 +57,7 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
         observers=new ArrayList<GameOver>();
     }
 
+    //Storing the touch movements
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
@@ -78,7 +80,7 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
         this.invalidate();
         return true;
     }
-
+    //Drawing the canvas on the view.
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         game.draw(canvas, paint, bm );
@@ -95,12 +97,14 @@ public class CannonBallView  extends View implements View.OnTouchListener, Runna
 
 
     }
+    //notify when the game gets over
     private void notifyGameOver() {
-        for (GameOver o : observers) o.gameOver();
+        for (GameOver o : observers)
+            o.gameOver(game.hasWon());
     }
 
 
-
+    //register the event when the game is over.
     public void registerGameOver(GameOver gameover) {
         observers.add(gameover);
     }

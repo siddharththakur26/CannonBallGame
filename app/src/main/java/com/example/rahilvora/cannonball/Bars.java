@@ -5,21 +5,20 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by siddharththakur on 21/04/18.
+ * Bars object with number of bar as its property
  */
 
-public class Bars  extends ArrayList<Bar>{
-    public static final float BARSTEP = 0.06f;
-    float screenmax_l1=500.0f;
-    float screenmax_l2=900.0f;
-    float screenmax_l3=1000.0f;
-    float screenmin= 0.0f;
+public class Bars extends ArrayList<Bar> {
+    static float SCREENMAX = 1000.0f;
+    static float SCREENMIN = 0.0f;
+
+    //Movement of the bars are updated at every step
     public void step() {
         for (Bar b : this) {
-            if (b.x2pos > screenmax_l3 || b.x1pos < screenmin) {
+            if (b.x2pos > SCREENMAX || b.x1pos < SCREENMIN) {
                 b.speed = -1 * b.speed;
             }
             b.x1pos += b.speed;
@@ -28,7 +27,7 @@ public class Bars  extends ArrayList<Bar>{
 
     }
 
-
+    //Drawing the number of bars
     public void draw(Canvas canvas, Paint paint, Bitmap bm) {
         for (Bar bar : this) bar.draw(canvas, paint, bm);
     }
